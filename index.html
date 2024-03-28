@@ -229,6 +229,102 @@
 
         var filterData;
 
+        var corps = [
+            {
+                "corp_int": 0,
+                "corp": "全部",
+                "corp_Pic": "ICONS_FILTERS_ALL_CORPS"
+            },
+            {
+                "corp_int": 1,
+                "corp": "GSO",
+                "corp_Pic": "GSO_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 2,
+                "corp": "GC",
+                "corp_Pic": "GEOCORP_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 4,
+                "corp": "VEN",
+                "corp_Pic": "VENTURE_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 5,
+                "corp": "HE",
+                "corp_Pic": "HAWKEYE_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 7,
+                "corp": "BF",
+                "corp_Pic": "BF_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 8,
+                "corp": "SJ",
+                "corp_Pic": "SJ_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 3,
+                "corp": "RR",
+                "corp_Pic": "RR_REVERSE_LOGO_STYLE_FLAT_DS"
+            },
+            {
+                "corp_int": 6,
+                "corp": "SP",
+                "corp_Pic": "SPEHatRed_111"
+            }
+        ]
+
+        var categorys = [
+            {
+                "category_int": 0,
+                "category": "全部",
+                "category_Pic": "ICON_BLOCK_TYPE_ALL"
+            },
+            {
+                "category_int": 2,
+                "category": "一般",
+                "category_Pic": "ICON_BLOCK_TYPE_STANDARD"
+            },
+            {
+                "category_int": 1,
+                "category": "控制艙",
+                "category_Pic": "ICON_BLOCK_TYPE_CONTROL"
+            },
+            {
+                "category_int": 3,
+                "category": "車輪",
+                "category_Pic": "ICON_BLOCK_TYPE_WHEELS"
+            },
+            {
+                "category_int": 4,
+                "category": "武器",
+                "category_Pic": "ICON_BLOCK_TYPE_WEAPONS"
+            },
+            {
+                "category_int": 5,
+                "category": "裝飾和其他",
+                "category_Pic": "ICON_BLOCK_TYPE_ACCESSORY"
+            },
+            {
+                "category_int": 6,
+                "category": "電力",
+                "category_Pic": "ICON_BLOCK_TYPE_FUEL"
+            },
+            {
+                "category_int": 7,
+                "category": "工業",
+                "category_Pic": "ICON_BLOCK_TYPE_BASEBLOCKS"
+            },
+            {
+                "category_int": 8,
+                "category": "航空",
+                "category_Pic": "ICON_BLOCK_TYPE_FLIGHT"
+            }
+        ]
+
         function fetchData(url, successCallback, errorCallback) {
             // 使用 fetch 從指定 URL 中取得資料
             fetch(url)
