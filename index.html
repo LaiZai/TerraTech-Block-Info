@@ -351,7 +351,11 @@
                     // 成功取得資料時的回調函式
                     // 在這裡可以對取得的資料進行操作，例如將資料指派給變數或呼叫其他函式
                     originData = data;
+                    console.log("originData");
+                    console.log(originData);
                     filterData = [...originData];
+                    console.log("filterData");
+                    console.log(filterData);
                 },
                 function (error) {
                     // 取得資料失敗時的回調函式
