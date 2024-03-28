@@ -44723,8 +44723,8 @@
         // 封裝生成圖片的函數
         function blockPic(data, type, row) {
             if (type === 'display') {
-                var imgSrc = 'https://raw.githubusercontent.com/LaiZai/TerraTech-Block-Info/master/assets/Texture2D/' + row.resource_name + '.png';
-                return '<img src="' + imgSrc + '" alt="' + row.resource_name + '" style="width: 50px; height: auto;">';
+                var imgSrc = 'assets/Texture2D/' + row.enum + '.png';
+                return '<img src="' + imgSrc + '" alt="' + row.enum + '" style="width: 50px; height: auto;">';
                 // // 發送 XMLHttpRequest
                 // var http = new XMLHttpRequest();
                 // http.open('HEAD', imgSrc, false);
@@ -44759,7 +44759,7 @@
             dataTable = $('#blockTable').DataTable({
                 "data": data,
                 "columns": [
-                    { "data": "resource_name", "render": blockPic },
+                    { "data": "enum", "render": blockPic },
                     { "data": "block" },
                     { "data": "resource_name" },
                     { "data": "mass" },
