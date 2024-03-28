@@ -255,7 +255,7 @@
                     // 成功取得資料時的回調函式
                     // 在這裡可以對取得的資料進行操作，例如將資料指派給變數或呼叫其他函式
                     originData = data;
-                    filterData = [...originData];
+                    filterData = originData;
 
                     // 繪製 DataTable
                     drawDataTable(filterData.data_blocks);
