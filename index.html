@@ -44695,23 +44695,35 @@
 
         // 封裝渲染 JSON 的函數
         function JSONrender(data) {
-            if (!data) return ''; // 如果為空，返回空字符串
+            if (!data) return ''; // 如果為空，返回空字串
 
             // 解析並格式化 JSON
             var result = "";
             for (var key in data) {
                 if (data.hasOwnProperty(key)) {
-                    result += key + ": " + data[key] + "<br>";
+                    var value = data[key];
+                    // 如果值是物件，則進行遞迴呼叫
+                    if (typeof value === 'object') {
+                        // 將值轉換為格式化的 JSON 字符串
+                        var formattedValue = JSON.stringify(value, null, 4);
+                        // 將格式化的 JSON 字符串中的換行符替換為<br>標籤
+                        formattedValue = formattedValue.replace(/\n/g, "<br>");
+                        // 將格式化的 JSON 字符串添加到結果中
+                        result += key + ": " + formattedValue + "<br>";
+                    } else {
+                        result += key + ": " + value + "<br>";
+                    }
                 }
             }
             return result;
         }
 
+
+
         // 封裝生成圖片的函數
         function blockPic(data, type, row) {
             if (type === 'display') {
                 var imgSrc = 'assets/Texture2D/' + row.resource_name + '.png';
-
                 // 發送 XMLHttpRequest
                 var http = new XMLHttpRequest();
                 http.open('HEAD', imgSrc, false);
@@ -44728,6 +44740,17 @@
             }
             return data;
         }
+
+        function JSONrecipe(data) {
+            if (!data || !Array.isArray(data)) return ''; // 如果数据为空或不是数组，返回空字符串
+
+            var result = '';
+            data.forEach(function (ingredient) {
+                result += ingredient.name + ' x ' + ingredient.count + '<br>';
+            });
+            return result;
+        }
+
 
 
         // 封裝繪製 DataTable 的函數
@@ -44748,7 +44771,7 @@
                     { "data": "damageable_type" },
                     { "data": "cell_count" },
                     { "data": "ap_count" },
-                    { "data": "recipe", "render": JSONrender },
+                    { "data": "recipe", "render": JSONrecipe },
                     { "data": "ModuleFuelTank", "render": JSONrender },
                     { "data": "ModuleEnergyStore", "render": JSONrender },
                     { "data": "ModuleShieldGenerator", "render": JSONrender },
