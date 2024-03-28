@@ -44723,20 +44723,21 @@
         // 封裝生成圖片的函數
         function blockPic(data, type, row) {
             if (type === 'display') {
-                var imgSrc = 'assets/Texture2D/' + row.resource_name + '.png';
-                // 發送 XMLHttpRequest
-                var http = new XMLHttpRequest();
-                http.open('HEAD', imgSrc, false);
-                http.send();
+                var imgSrc = 'https://raw.githubusercontent.com/LaiZai/TerraTech-Block-Info/master/assets/Texture2D/' + row.resource_name + '.png';
+                return '<img src="' + imgSrc + '" alt="' + row.resource_name + '" style="width: 50px; height: auto;">';
+                // // 發送 XMLHttpRequest
+                // var http = new XMLHttpRequest();
+                // http.open('HEAD', imgSrc, false);
+                // http.send();
 
-                // 檢查圖片是否存在
-                if (http.status !== 404) {
-                    // 如果圖片存在，則在欄位中生成圖片
-                    return '<img src="' + imgSrc + '" alt="' + row.resource_name + '" style="width: 50px; height: auto;">';
-                } else {
-                    // 如果圖片不存在，則返回一個提示
-                    return '圖片不存在';
-                }
+                // // 檢查圖片是否存在
+                // if (http.status !== 404) {
+                //     // 如果圖片存在，則在欄位中生成圖片
+                //     return '<img src="' + imgSrc + '" alt="' + row.resource_name + '" style="width: 50px; height: auto;">';
+                // } else {
+                //     // 如果圖片不存在，則返回一個提示
+                //     return '圖片不存在';
+                // }
             }
             return data;
         }
