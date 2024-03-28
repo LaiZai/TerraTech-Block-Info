@@ -330,7 +330,7 @@
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('網路回應異常!');
+                        throw new Error('網路回應異常');
                     }
                     return response.json();
                 })
