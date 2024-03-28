@@ -227,102 +227,6 @@
 
         var originData;
 
-        var corps = [
-            {
-                "corp_int": 0,
-                "corp": "全部",
-                "corp_Pic": "ICONS_FILTERS_ALL_CORPS"
-            },
-            {
-                "corp_int": 1,
-                "corp": "GSO",
-                "corp_Pic": "GSO_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 2,
-                "corp": "GC",
-                "corp_Pic": "GEOCORP_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 4,
-                "corp": "VEN",
-                "corp_Pic": "VENTURE_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 5,
-                "corp": "HE",
-                "corp_Pic": "HAWKEYE_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 7,
-                "corp": "BF",
-                "corp_Pic": "BF_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 8,
-                "corp": "SJ",
-                "corp_Pic": "SJ_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 3,
-                "corp": "RR",
-                "corp_Pic": "RR_REVERSE_LOGO_STYLE_FLAT_DS"
-            },
-            {
-                "corp_int": 6,
-                "corp": "SP",
-                "corp_Pic": "SPEHatRed_111"
-            }
-        ]
-
-        var categorys = [
-            {
-                "category_int": 0,
-                "category": "全部",
-                "category_Pic": "ICON_BLOCK_TYPE_ALL"
-            },
-            {
-                "category_int": 2,
-                "category": "一般",
-                "category_Pic": "ICON_BLOCK_TYPE_STANDARD"
-            },
-            {
-                "category_int": 1,
-                "category": "控制艙",
-                "category_Pic": "ICON_BLOCK_TYPE_CONTROL"
-            },
-            {
-                "category_int": 3,
-                "category": "車輪",
-                "category_Pic": "ICON_BLOCK_TYPE_WHEELS"
-            },
-            {
-                "category_int": 4,
-                "category": "武器",
-                "category_Pic": "ICON_BLOCK_TYPE_WEAPONS"
-            },
-            {
-                "category_int": 5,
-                "category": "裝飾和其他",
-                "category_Pic": "ICON_BLOCK_TYPE_ACCESSORY"
-            },
-            {
-                "category_int": 6,
-                "category": "電力",
-                "category_Pic": "ICON_BLOCK_TYPE_FUEL"
-            },
-            {
-                "category_int": 7,
-                "category": "工業",
-                "category_Pic": "ICON_BLOCK_TYPE_BASEBLOCKS"
-            },
-            {
-                "category_int": 8,
-                "category": "航空",
-                "category_Pic": "ICON_BLOCK_TYPE_FLIGHT"
-            }
-        ]
-
         var filterData;
 
         function fetchData(url, successCallback, errorCallback) {
@@ -351,11 +255,30 @@
                     // 成功取得資料時的回調函式
                     // 在這裡可以對取得的資料進行操作，例如將資料指派給變數或呼叫其他函式
                     originData = data;
-                    console.log("originData");
-                    console.log(originData);
                     filterData = [...originData];
-                    console.log("filterData");
-                    console.log(filterData);
+
+                    // 繪製 DataTable
+                    drawDataTable(filterData.data_blocks);
+
+                    // 獲取包含按鈕組的父元素
+                    var categoryFilterAll = document.getElementById('categoryFilterAll');
+                    var categoryFilter = document.getElementById('categoryFilter');
+                    var corpFilterAll = document.getElementById('corpFilterAll');
+                    var corpFilter = document.getElementById('corpFilter');
+
+                    // 繪製按鈕組
+                    drawFilterButtons(categoryFilterAll, categoryFilter, categorys, 'category');
+                    drawFilterButtons(corpFilterAll, corpFilter, corps, 'corp');
+
+                    // 設定"全部"按鈕
+                    setAllButton('btncheck_category_0', 'category');
+                    setAllButton('btncheck_corp_0', 'corp');
+
+                    // 監聽 categoryFilter 和 corpFilter 內所有 checkbox 的改變事件
+                    $('input[type="checkbox"]').on('change', function () {
+                        // 更新 DataTable
+                        updateDataTable();
+                    });
                 },
                 function (error) {
                     // 取得資料失敗時的回調函式
@@ -363,29 +286,29 @@
                 }
             );
 
+            // filterData = originData;
+            // // 繪製 DataTable
+            // drawDataTable(filterData.data_blocks);
 
-            // 繪製 DataTable
-            drawDataTable(filterData.data_blocks);
+            // // 獲取包含按鈕組的父元素
+            // var categoryFilterAll = document.getElementById('categoryFilterAll');
+            // var categoryFilter = document.getElementById('categoryFilter');
+            // var corpFilterAll = document.getElementById('corpFilterAll');
+            // var corpFilter = document.getElementById('corpFilter');
 
-            // 獲取包含按鈕組的父元素
-            var categoryFilterAll = document.getElementById('categoryFilterAll');
-            var categoryFilter = document.getElementById('categoryFilter');
-            var corpFilterAll = document.getElementById('corpFilterAll');
-            var corpFilter = document.getElementById('corpFilter');
+            // // 繪製按鈕組
+            // drawFilterButtons(categoryFilterAll, categoryFilter, categorys, 'category');
+            // drawFilterButtons(corpFilterAll, corpFilter, corps, 'corp');
 
-            // 繪製按鈕組
-            drawFilterButtons(categoryFilterAll, categoryFilter, categorys, 'category');
-            drawFilterButtons(corpFilterAll, corpFilter, corps, 'corp');
+            // // 設定"全部"按鈕
+            // setAllButton('btncheck_category_0', 'category');
+            // setAllButton('btncheck_corp_0', 'corp');
 
-            // 設定"全部"按鈕
-            setAllButton('btncheck_category_0', 'category');
-            setAllButton('btncheck_corp_0', 'corp');
-
-            // 監聽 categoryFilter 和 corpFilter 內所有 checkbox 的改變事件
-            $('input[type="checkbox"]').on('change', function () {
-                // 更新 DataTable
-                updateDataTable();
-            });
+            // // 監聽 categoryFilter 和 corpFilter 內所有 checkbox 的改變事件
+            // $('input[type="checkbox"]').on('change', function () {
+            //     // 更新 DataTable
+            //     updateDataTable();
+            // });
         });
 
         // 封裝渲染 JSON 的函數
