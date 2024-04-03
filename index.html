@@ -408,7 +408,6 @@
             // });
         });
 
-        // 封裝渲染 JSON 的函數
         function JSONrender(data) {
             if (!data) return ''; // 如果為空，返回空字串
 
@@ -438,7 +437,7 @@
 
 
 
-        // 封裝生成圖片的函數
+        // 生成圖片
         function blockPic(data, type, row) {
             if (type === 'display') {
                 var picName = row.enum;
@@ -466,7 +465,7 @@
         }
 
         function JSONrecipe(data) {
-            if (!data || !Array.isArray(data)) return ''; // 如果数据为空或不是数组，返回空字符串
+            if (!data || !Array.isArray(data)) return ''; // 如果資料為空或不是數組，則傳回空字串
 
             var result = '';
             data.forEach(function (ingredient) {
@@ -475,79 +474,6 @@
             return result;
         }
 
-
-
-        // 封裝繪製 DataTable 的函數
-        // function drawDataTable(data) {
-        //     dataTable = $('#blockTable').DataTable({
-        //         "data": data,
-        //         "columns": [
-        //             { "data": "enum", "render": blockPic },
-        //             { "data": "block" },
-        //             { "data": "resource_name" },
-        //             { "data": "mass" },
-        //             { "data": "grade" },
-        //             { "data": "price" },
-        //             { "data": "rarity" },
-        //             { "data": "health" },
-        //             { "data": "fragility" },
-        //             { "data": "DeathExplosion", "render": JSONrender },
-        //             { "data": "damageable_type" },
-        //             { "data": "cell_count" },
-        //             { "data": "ap_count" },
-        //             { "data": "recipe", "render": JSONrecipe },
-        //             { "data": "ModuleFuelTank", "render": JSONrender },
-        //             { "data": "ModuleEnergyStore", "render": JSONrender },
-        //             { "data": "ModuleShieldGenerator", "render": JSONrender },
-        //             { "data": "ModuleHover", "render": JSONrender },
-        //             { "data": "FireData", "render": JSONrender },
-        //             { "data": "ModuleHammer", "render": JSONrender },
-        //             { "data": "ModuleWeapon", "render": JSONrender },
-        //             { "data": "ModuleWheels", "render": JSONrender },
-        //             { "data": "ModuleBooster", "render": JSONrender }
-        //         ],
-        //         "lengthMenu": [[10, 15, 20, 25, 30, 50, 100, -1], [10, 15, 20, 25, 30, 50, 100, "All"]],
-        //         "pageLength": -1,
-        //         "responsive": true,
-        //         "dom": '<"top"<"left-col"B><"center-col"l><"right-col"f>>rtip',
-        //         // "buttons": [
-        //         //     {
-        //         //         extend: 'excelHtml5',
-        //         //         text: '將目前篩選的資料匯出Excel'
-        //         //     }
-        //         // ]
-        //         "buttons": [
-        //             {
-        //                 extend: 'excelHtml5',
-        //                 text: 'Export Excel',
-        //                 customize: function (xlsx) {
-        //                     var sheet = xlsx.xl.worksheets['sheet1.xml'];
-
-        //                     // Iterate over each row in the worksheet
-        //                     $('row', sheet).each(function () {
-        //                         // Iterate over each cell in the row
-        //                         $('c', this).each(function () {
-        //                             if ($(this).text().startsWith('data:image')) {
-        //                                 // Extract the image URL
-        //                                 var imageData = $(this).text();
-        //                                 // Embed the image in base64 format
-        //                                 $(this).text('');
-        //                                 $(this).append($('<v:imagedata/>').attr('src', imageData.substring(0, imageData.indexOf(','))));
-        //                             }
-        //                         });
-        //                     });
-        //                 }
-        //             }
-        //         ]
-        //     });
-
-        //     $('#blockTable_length select').change(function () {
-        //         var length = $(this).val();
-        //         if (length == -1) {
-        //             dataTable.page.len(-1).draw();
-        //         }
-        //     });
-        // }
         function drawDataTable(data) {
             dataTable = $('#blockTable').DataTable({
                 "data": data,
@@ -580,61 +506,44 @@
                 "pageLength": -1,
                 "responsive": true,
                 "dom": '<"top"<"left-col"B><"center-col"l><"right-col"f>>rtip',
+                // "buttons": [
+                //     {
+                //         extend: 'excelHtml5',
+                //         text: '將目前篩選的資料匯出Excel'
+                //     }
+                // ]
                 "buttons": [
                     {
                         extend: 'excelHtml5',
                         text: 'Export Excel',
                         customize: function (xlsx) {
                             var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                            $('row c', sheet).each(function () {
-                                if ($(this).text().startsWith('data:image')) {
-                                    var imageData = $(this).text();
-                                    var imgData = imageData.substring(imageData.indexOf(',') + 1);
-                                    var base64Image = 'data:image/png;base64,' + imgData;
 
-                                    // Convert base64 string to blob
-                                    function b64toBlob(b64Data, contentType, sliceSize) {
-                                        contentType = contentType || '';
-                                        sliceSize = sliceSize || 512;
-
-                                        var byteCharacters = atob(b64Data);
-                                        var byteArrays = [];
-
-                                        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-                                            var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-                                            var byteNumbers = new Array(slice.length);
-                                            for (var i = 0; i < slice.length; i++) {
-                                                byteNumbers[i] = slice.charCodeAt(i);
-                                            }
-
-                                            var byteArray = new Uint8Array(byteNumbers);
-                                            byteArrays.push(byteArray);
-                                        }
-
-                                        var blob = new Blob(byteArrays, { type: contentType });
-                                        return blob;
+                            // Iterate over each row in the worksheet
+                            $('row', sheet).each(function () {
+                                // Iterate over each cell in the row
+                                $('c', this).each(function () {
+                                    if ($(this).text().startsWith('<img')) {
+                                        // Extract the image data
+                                        var imageData = $(this).text();
+                                        // Insert the image data into the cell
+                                        $(this).html(imageData);
                                     }
-
-                                    var blob = b64toBlob(imgData, 'image/png');
-                                    var imgId = $(this).parent().attr('r');
-                                    var imgPath = 'xl/media/image' + imgId + '.png';
-
-                                    JSZipUtils.getBinaryContent(base64Image, function (err, data) {
-                                        if (err) throw err;
-                                        xlsx.zip.file(imgPath, data, { binary: true });
-                                    });
-
-                                    $(this).text(imgPath);
-                                }
+                                });
                             });
                         }
                     }
                 ]
             });
+
+            $('#blockTable_length select').change(function () {
+                var length = $(this).val();
+                if (length == -1) {
+                    dataTable.page.len(-1).draw();
+                }
+            });
         }
 
-        // 更新 DataTable 的函數
         function updateDataTable() {
             // 構建需要篩選的條件
             var categoryFilterConditions = [];
@@ -669,7 +578,7 @@
 
             dataTable.clear().rows.add(filteredData).draw(); // 清空並重新繪製 DataTable
         }
-        // 封裝繪製按鈕組的函數
+
         function drawFilterButtons(parentAll, parent, items, type) {
             items.forEach(function (item) {
                 // 創建 input 元素
@@ -710,7 +619,6 @@
             });
         }
 
-        // 封裝設定"全部"按鈕的函數
         function setAllButton(btnId, parentFilterId) {
             var btnAll = document.getElementById(btnId);
             btnAll.addEventListener('click', function () {
