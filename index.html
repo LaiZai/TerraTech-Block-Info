@@ -437,7 +437,12 @@
         // 封裝生成圖片的函數
         function blockPic(data, type, row) {
             if (type === 'display') {
-                var imgSrc = 'assets/Texture2D/' + row.enum + '.png';
+                var picName = row.enum;
+                //特例
+                if (row.enum == "VEN_Radar_Minimap_211") {
+                    picName = "VEN_Radar_MiniMap_211";
+                }
+                var imgSrc = 'assets/Texture2D/' + picName + '.png';
                 return '<img src="' + imgSrc + '" alt="' + row.enum + '" style="width: 50px; height: auto;">';
                 // // 發送 XMLHttpRequest
                 // var http = new XMLHttpRequest();
