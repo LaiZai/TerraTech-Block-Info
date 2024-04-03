@@ -639,6 +639,12 @@
         }
 
         function exportExcel() {
+            // 檢查是否存在要匯出的資料
+            if ($('#blockTable tbody tr').length === 0) {
+                console.error("沒有資料可匯出。");
+                return;
+            }
+
             // 初始化 Excel 物件
             var excelData = [];
 
@@ -697,6 +703,7 @@
                 console.error("匯出 Excel 檔案時發生錯誤:", error);
             }
         }
+
 
         // 將圖片轉換為 base64 格式
         function getBase64Image(imgSrc) {
