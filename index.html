@@ -681,11 +681,11 @@
                         var imgExtension = cellData.extension;
                         var imgData = 'data:image/' + imgExtension + ';base64,' + imgBase64;
                         var imgAnchor = '<img src="' + imgData + '"/>';
-                        var imgXML = '<html><body>' + imgAnchor + '</body></html>';
-                        XLSX.utils.sheet_add_aoa(ws, [[imgXML]], { origin: { r: r, c: c } });
+                        XLSX.utils.sheet_add_aoa(ws, [[imgAnchor]], { origin: { r: r, c: c } });
                     }
                 }
             }
+
 
             // 匯出 Excel 檔案
             XLSX.writeFile(wb, "datatable_export.xlsx");
