@@ -686,9 +686,16 @@
                 }
             }
 
-
             // 匯出 Excel 檔案
-            XLSX.writeFile(wb, "datatable_export.xlsx");
+            try {
+                if (excelData.length > 0) {
+                    XLSX.writeFile(wb, "datatable_export.xlsx");
+                } else {
+                    console.error("沒有資料可匯出。");
+                }
+            } catch (error) {
+                console.error("匯出 Excel 檔案時發生錯誤:", error);
+            }
         }
 
         // 將圖片轉換為 base64 格式
@@ -704,6 +711,7 @@
             var dataURL = canvas.toDataURL("image/png");
             return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
         }
+
 
 
 
