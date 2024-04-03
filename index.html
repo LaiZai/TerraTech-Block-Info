@@ -655,9 +655,8 @@
                 $(this).find('td').each(function () {
                     // 如果是圖片列，取得圖片的 base64 編碼
                     if ($(this).find('img').length > 0) {
-                        var imgSrc = $(this).find('img').attr('src');
-                        var imgData = getBase64Image(imgSrc);
-                        rowData.push(imgData);
+                        var imgData = $(this).find('img').attr('src');
+                        rowData.push(imgData); // 將"data:,"直接作為圖片資料加入
                     } else {
                         rowData.push($(this).text());
                     }
@@ -673,6 +672,7 @@
             // 匯出 Excel 檔案
             XLSX.writeFile(wb, "datatable_export.xlsx");
         }
+
 
         // 將圖片轉換為 base64 格式
         function getBase64Image(imgSrc) {
