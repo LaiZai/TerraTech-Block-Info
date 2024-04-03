@@ -655,8 +655,12 @@
                 $(this).find('td').each(function () {
                     // 如果是圖片列，取得圖片的 base64 編碼
                     if ($(this).find('img').length > 0) {
-                        var imgData = $(this).find('img').attr('src');
-                        rowData.push(imgData); // 將"data:,"直接作為圖片資料加入
+                        var imgSrc = $(this).find('img').attr('src');
+                        var imgData = getBase64Image(imgSrc);
+                        rowData.push({
+                            base64: imgData,
+                            extension: 'png' // 修改為您圖片的擴展名
+                        });
                     } else {
                         rowData.push($(this).text());
                     }
@@ -667,12 +671,25 @@
             // 創建 Excel 檔案
             var wb = XLSX.utils.book_new();
             var ws = XLSX.utils.aoa_to_sheet(excelData);
-            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+
+            // 插入圖片
+            for (var r = 1; r < excelData.length; r++) {
+                for (var c = 0; c < excelData[r].length; c++) {
+                    var cellData = excelData[r][c];
+                    if (typeof cellData === 'object' && cellData.base64) {
+                        var imgBase64 = cellData.base64;
+                        var imgExtension = cellData.extension;
+                        var imgData = 'data:image/' + imgExtension + ';base64,' + imgBase64;
+                        var imgAnchor = '<img src="' + imgData + '"/>';
+                        var imgXML = '<image><x:anchor>' + imgAnchor + '</x:anchor></image>';
+                        XLSX.utils.sheet_add_aoa(ws, [[imgXML]], { origin: XLSX.utils.encode_cell({ r: r, c: c }) });
+                    }
+                }
+            }
 
             // 匯出 Excel 檔案
             XLSX.writeFile(wb, "datatable_export.xlsx");
         }
-
 
         // 將圖片轉換為 base64 格式
         function getBase64Image(imgSrc) {
@@ -687,6 +704,7 @@
             var dataURL = canvas.toDataURL("image/png");
             return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
         }
+
 
     </script>
 </body>
