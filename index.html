@@ -506,10 +506,33 @@
                 "pageLength": -1,
                 "responsive": true,
                 "dom": '<"top"<"left-col"B><"center-col"l><"right-col"f>>rtip',
+                // "buttons": [
+                //     {
+                //         extend: 'excelHtml5',
+                //         text: '將目前篩選的資料匯出Excel'
+                //     }
+                // ]
                 "buttons": [
                     {
                         extend: 'excelHtml5',
-                        text: '將目前篩選的資料匯出Excel'
+                        text: 'Export Excel',
+                        customize: function (xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+
+                            // Iterate over each row in the worksheet
+                            $('row', sheet).each(function () {
+                                // Iterate over each cell in the row
+                                $('c', this).each(function () {
+                                    if ($(this).text().startsWith('data:image')) {
+                                        // Extract the image URL
+                                        var imageData = $(this).text();
+                                        // Embed the image in base64 format
+                                        $(this).text('');
+                                        $(this).append($('<v:imagedata/>').attr('src', imageData.substring(0, imageData.indexOf(','))));
+                                    }
+                                });
+                            });
+                        }
                     }
                 ]
             });
