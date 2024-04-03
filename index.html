@@ -224,9 +224,7 @@
 
     <script>
         var dataTable;
-
         var originData;
-
         var filterData;
 
         var corps = [
@@ -276,7 +274,6 @@
                 "corp_Pic": "SPEHatRed_111"
             }
         ]
-
         var categorys = [
             {
                 "category_int": 0,
@@ -428,6 +425,9 @@
                         result += '"' + key + '"' + ": " + value + ",<br>";
                     }
                 }
+            }
+            if (result.slice(-5) === ',<br>') {
+                result = result.slice(0, -5) + "<br>";
             }
             return result;
         }
