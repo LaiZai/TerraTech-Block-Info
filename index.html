@@ -681,8 +681,8 @@
                         var imgExtension = cellData.extension;
                         var imgData = 'data:image/' + imgExtension + ';base64,' + imgBase64;
                         var imgAnchor = '<img src="' + imgData + '"/>';
-                        var imgXML = '<image><x:anchor>' + imgAnchor + '</x:anchor></image>';
-                        XLSX.utils.sheet_add_aoa(ws, [[imgXML]], { origin: XLSX.utils.encode_cell({ r: r, c: c }) });
+                        var imgXML = '<html><body>' + imgAnchor + '</body></html>';
+                        XLSX.utils.sheet_add_aoa(ws, [[imgXML]], { origin: { r: r, c: c } });
                     }
                 }
             }
@@ -704,6 +704,7 @@
             var dataURL = canvas.toDataURL("image/png");
             return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
         }
+
 
 
     </script>
